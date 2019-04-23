@@ -1,3 +1,4 @@
+using System;
 using Ew.Runtime.Serialization.Internal.Binary;
 using K4os.Compression.LZ4;
 
@@ -5,6 +6,12 @@ namespace Ew.Runtime.Serialization
 {
     public static class BinarySerializer
     {
+        public static void Register<T>(Func<object, byte[]> serialize, Func<byte[], object> deserialize)
+        {
+            InternalBinarySerializer.Serializers.Add(typeof(T), serialize);
+            InternalBinaryDeserializer.Deserializers.Add(typeof(T), deserialize);
+        }
+
         public static byte[] Serialize<T>(T value)
         {
             return InternalBinarySerializer.Serialize(value);

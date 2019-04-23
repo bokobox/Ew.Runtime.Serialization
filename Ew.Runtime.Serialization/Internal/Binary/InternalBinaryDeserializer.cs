@@ -6,7 +6,7 @@ namespace Ew.Runtime.Serialization.Internal.Binary
 {
     internal static class InternalBinaryDeserializer
     {
-        private static readonly ThreadSafeHashTypeTable<Func<byte[], object>> Deserializers;
+        public static readonly ThreadSafeHashTypeTable<Func<byte[], object>> Deserializers;
 
         static InternalBinaryDeserializer()
         {
