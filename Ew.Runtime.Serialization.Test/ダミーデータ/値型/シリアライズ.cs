@@ -141,6 +141,15 @@ namespace Ew.Runtime.Serialization.Test.ダミーデータ.値型
             Assert.NotNull(bin1);
             Assert.IsNotEmpty(bin1);
         }
+        
+        [Test]
+        [AutoData]
+        public void doubleテスト(double value)
+        {
+            var bin1 = BinarySerializer.Serialize(value);
+            Assert.NotNull(bin1);
+            Assert.IsNotEmpty(bin1);
+        }
 
         [Test]
         [AutoData]

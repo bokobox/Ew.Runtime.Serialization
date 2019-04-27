@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Ew.Runtime.Serialization.Test
 {
-    public class EwAssert
+    public static class EwAssert
     {
         public static bool Equal(object obj1, object obj2)
         {

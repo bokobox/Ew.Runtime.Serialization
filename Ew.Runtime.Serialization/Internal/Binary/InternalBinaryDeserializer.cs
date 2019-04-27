@@ -14,37 +14,23 @@ namespace Ew.Runtime.Serialization.Internal.Binary
 
             deserializers.Add(typeof(string),
                 o => o == null || o.Length == 0 ? string.Empty : Encoding.Unicode.GetString(o));
-            deserializers.Add(typeof(bool), o => BitConverter.ToBoolean(o, 0));
-            deserializers.Add(typeof(char), o => BitConverter.ToChar(o, 0));
-            deserializers.Add(typeof(sbyte), o => (sbyte) o[0]);
-            deserializers.Add(typeof(byte), o => o[0]);
-            deserializers.Add(typeof(short), o => BitConverter.ToInt16(o, 0));
-            deserializers.Add(typeof(ushort), o => BitConverter.ToUInt16(o, 0));
-            deserializers.Add(typeof(int), o => BitConverter.ToInt32(o, 0));
-            deserializers.Add(typeof(uint), o => BitConverter.ToUInt32(o, 0));
-            deserializers.Add(typeof(long), o => BitConverter.ToInt64(o, 0));
-            deserializers.Add(typeof(ulong), o => BitConverter.ToUInt64(o, 0));
-            deserializers.Add(typeof(float), o => BitConverter.ToSingle(o, 0));
-            deserializers.Add(typeof(double), o => BitConverter.ToDouble(o, 0));
-            deserializers.Add(typeof(byte[]), o => o);
+            
+            deserializers.Add(typeof(bool), o => BitConverterExtension.ToBool(o));
+            deserializers.Add(typeof(char), o => BitConverterExtension.ToChar(o));
+            deserializers.Add(typeof(sbyte), o => BitConverterExtension.ToSByte(o));
+            deserializers.Add(typeof(byte), o => BitConverterExtension.ToByte(o));
+            deserializers.Add(typeof(short), o => BitConverterExtension.ToShort(o));
+            deserializers.Add(typeof(ushort), o => BitConverterExtension.ToUShort(o));
+            deserializers.Add(typeof(int), o => BitConverterExtension.ToInt(o));
+            deserializers.Add(typeof(uint), o => BitConverterExtension.ToUInt(o));
+            deserializers.Add(typeof(long), o => BitConverterExtension.ToLong(o));
+            deserializers.Add(typeof(ulong), o => BitConverterExtension.ToULong(o));
+            deserializers.Add(typeof(float), o => BitConverterExtension.ToFloat(o));
+            deserializers.Add(typeof(double), o => BitConverterExtension.ToDouble(o));
             deserializers.Add(typeof(decimal), o => BitConverterExtension.ToDecimal(o));
             deserializers.Add(typeof(DateTime), o => BitConverterExtension.ToDateTime(o));
             deserializers.Add(typeof(DateTimeOffset), o => BitConverterExtension.ToDateTimeOffset(o));
-
-            deserializers.Add(typeof(bool[]), BitConverterExtension.ToArray<bool>);
-            deserializers.Add(typeof(char[]), BitConverterExtension.ToArray<char>);
-            deserializers.Add(typeof(sbyte[]), BitConverterExtension.ToArray<sbyte>);
-            deserializers.Add(typeof(short[]), BitConverterExtension.ToArray<short>);
-            deserializers.Add(typeof(ushort[]), BitConverterExtension.ToArray<ushort>);
-            deserializers.Add(typeof(int[]), BitConverterExtension.ToArray<int>);
-            deserializers.Add(typeof(uint[]), BitConverterExtension.ToArray<uint>);
-            deserializers.Add(typeof(long[]), BitConverterExtension.ToArray<long>);
-            deserializers.Add(typeof(ulong[]), BitConverterExtension.ToArray<ulong>);
-            deserializers.Add(typeof(float[]), BitConverterExtension.ToArray<float>);
-            deserializers.Add(typeof(double[]), BitConverterExtension.ToArray<double>);
-            deserializers.Add(typeof(decimal[]), BitConverterExtension.ToArray<decimal>);
-            deserializers.Add(typeof(DateTime[]), BitConverterExtension.ToArray<DateTime>);
-            deserializers.Add(typeof(DateTimeOffset[]), BitConverterExtension.ToArray<DateTimeOffset>);
+            deserializers.Add(typeof(byte[]), o => o);
 
             Deserializers = deserializers;
         }

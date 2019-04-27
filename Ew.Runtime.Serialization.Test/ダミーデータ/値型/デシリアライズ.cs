@@ -197,6 +197,20 @@ namespace Ew.Runtime.Serialization.Test.ダミーデータ.値型
 
         [Test]
         [AutoData]
+        public void doubleテスト(double value)
+        {
+            var value2 = value;
+            for (var i = 0; i < 3; i++)
+            {
+                var bin = BinarySerializer.Serialize(value2);
+                value2 = BinarySerializer.Deserialize<double>(bin);
+            }
+
+            Assert.AreEqual(value, value2);
+        }
+
+        [Test]
+        [AutoData]
         public void decimalテスト(decimal value)
         {
             var value2 = value;
