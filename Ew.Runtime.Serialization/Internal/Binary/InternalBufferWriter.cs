@@ -6,18 +6,10 @@ namespace Ew.Runtime.Serialization.Internal.Binary
 {
     internal class InternalBufferWriter
     {
-        [ThreadStatic] private static readonly byte[][] Buffers;
+        [ThreadStatic] private static byte[][] Buffers;
 
         private readonly byte[] _buffer;
         private int _length;
-
-        static InternalBufferWriter()
-        {
-            var buffers = new List<byte[]>();
-            for (var i = 0; i < 32; i++) buffers.Add(new byte[ushort.MaxValue]);
-
-            Buffers = buffers.ToArray();
-        }
 
         private InternalBufferWriter(byte[] buffer)
         {
@@ -27,6 +19,15 @@ namespace Ew.Runtime.Serialization.Internal.Binary
 
         public static InternalBufferWriter GetBuffer(int layer)
         {
+            if (Buffers == null)
+            {
+                var buffers = new List<byte[]>();
+                for (var i = 0; i < 32; i++) 
+                    buffers.Add(new byte[ushort.MaxValue]);
+                
+                Buffers = buffers.ToArray();   
+            }
+            
             return new InternalBufferWriter(Buffers[layer]);
         }
 
