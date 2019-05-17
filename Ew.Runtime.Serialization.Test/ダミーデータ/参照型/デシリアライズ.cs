@@ -500,7 +500,7 @@ namespace Ew.Runtime.Serialization.Test.ダミーデータ.参照型
                 value2 = BinarySerializer.Deserialize<TestModel34>(bin);
             }
 
-            Assert.IsTrue(EwAssert.Equal(value, value2));
+            Assert.IsTrue(false);
         }
 
         [Test]
