@@ -37,7 +37,8 @@ namespace Ew.Runtime.Serialization.Test.初期値.参照型
                 value2 = BinarySerializer.Deserialize<TestModel1>(bin);
             }
 
-            Assert.IsTrue(false);
+            Assert.IsTrue(EwAssert.Equal(value, value2));
+            Assert.IsTrue(EwAssert.Equal(value, value2));
         }
 
         [Test]
