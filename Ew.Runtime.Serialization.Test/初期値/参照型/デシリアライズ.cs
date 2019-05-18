@@ -38,7 +38,6 @@ namespace Ew.Runtime.Serialization.Test.初期値.参照型
             }
 
             Assert.IsTrue(EwAssert.Equal(value, value2));
-            Assert.IsTrue(EwAssert.Equal(value, value2));
         }
 
         [Test]
