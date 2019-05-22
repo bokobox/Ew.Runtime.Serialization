@@ -14,7 +14,7 @@ namespace Ew.Runtime.Serialization.Internal.Binary
 
             deserializers.Add(typeof(string),
                 o => o == null || o.Length == 0 ? string.Empty : Encoding.Unicode.GetString(o));
-            
+
             deserializers.Add(typeof(bool), o => BitConverterExtension.ToBool(o));
             deserializers.Add(typeof(char), o => BitConverterExtension.ToChar(o));
             deserializers.Add(typeof(sbyte), o => BitConverterExtension.ToSByte(o));
