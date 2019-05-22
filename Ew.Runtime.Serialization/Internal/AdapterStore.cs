@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using Ew.Runtime.Serialization.Attributes;
 
 namespace Ew.Runtime.Serialization.Internal
 {
@@ -25,6 +26,7 @@ namespace Ew.Runtime.Serialization.Internal
                     return adapters;
 
                 adapters = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(x => x.GetCustomAttribute(typeof(IgnoreMemberAttribute)) == null)
                     .Select(p => new PropertyAdapter(type, p)).Reverse().ToArray();
 
                 adaptersList.Add(type, adapters);
@@ -38,6 +40,7 @@ namespace Ew.Runtime.Serialization.Internal
                     return adapters;
 
                 adapters = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(x => x.GetCustomAttribute(typeof(IgnoreMemberAttribute)) == null)
                     .Select(p => new PropertyAdapter(type, p)).ToArray();
 
                 adaptersList.Add(type, adapters);
