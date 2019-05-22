@@ -91,13 +91,13 @@ namespace Ew.Runtime.Serialization.Internal.Binary
         public static byte[] GetBytes(float value)
         {
             //本来は234
-            
+
             //シリアライズ後のバイナリ
             //1000 0011 0110 1010 0000 0000 0000 0000
-            
+
             //先頭2ビットを反転する
             //0100 0011 0110 1010 0000 0000 0000 0000
-            
+
             //符号ビット0なので正数
             //指数部：1000 0110
             //仮数部：0110 1010 0000 0000 0000 0000
@@ -115,16 +115,16 @@ namespace Ew.Runtime.Serialization.Internal.Binary
             //仮数 * (2 ^ 指数) = 本来の値
             //1.828125 × 2^7 = 234 
             //OK
-             
+
             //https://ja.wikipedia.org/wiki/%E5%8D%98%E7%B2%BE%E5%BA%A6%E6%B5%AE%E5%8B%95%E5%B0%8F%E6%95%B0%E7%82%B9%E6%95%B0
-            var i = BitConverter.ToInt32(BitConverter.GetBytes(value), 0 );
+            var i = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
 
             i ^= 1 << 31;
             i ^= 1 << 30;
-            
+
             var bytes = new byte[sizeof(float)];
             Unsafe.As<byte, int>(ref bytes[0]) = i;
-            
+
             if (BitConverter.IsLittleEndian) Array.Reverse(bytes);
             return bytes;
         }
@@ -132,14 +132,14 @@ namespace Ew.Runtime.Serialization.Internal.Binary
         public static byte[] GetBytes(double value)
         {
             //https://ja.wikipedia.org/wiki/%E5%80%8D%E7%B2%BE%E5%BA%A6%E6%B5%AE%E5%8B%95%E5%B0%8F%E6%95%B0%E7%82%B9%E6%95%B0
-            var i = BitConverter.ToInt64(BitConverter.GetBytes(value), 0 );
+            var i = BitConverter.ToInt64(BitConverter.GetBytes(value), 0);
 
             i ^= 1 << 63;
             i ^= 1 << 62;
-            
+
             var bytes = new byte[sizeof(double)];
             Unsafe.As<byte, long>(ref bytes[0]) = i;
-            
+
             if (BitConverter.IsLittleEndian) Array.Reverse(bytes);
             return bytes;
         }
@@ -147,7 +147,7 @@ namespace Ew.Runtime.Serialization.Internal.Binary
         public static byte[] GetBytes(decimal value)
         {
             var bits = decimal.GetBits(value);
-            
+
             //https://qiita.com/nia_tn1012/items/9810d821d76dd765c59c
             bits[0] ^= 1 << 31;
             bits[0] ^= 1 << 22;
@@ -242,11 +242,11 @@ namespace Ew.Runtime.Serialization.Internal.Binary
         {
             //https://ja.wikipedia.org/wiki/%E5%8D%98%E7%B2%BE%E5%BA%A6%E6%B5%AE%E5%8B%95%E5%B0%8F%E6%95%B0%E7%82%B9%E6%95%B0
             if (BitConverter.IsLittleEndian) Array.Reverse(bytes);
-            var i = BitConverter.ToInt32( bytes, 0 );
+            var i = BitConverter.ToInt32(bytes, 0);
 
             i ^= 1 << 31;
             i ^= 1 << 30;
-            
+
             return BitConverter.ToSingle(BitConverter.GetBytes(i), 0);
         }
 
@@ -254,11 +254,11 @@ namespace Ew.Runtime.Serialization.Internal.Binary
         {
             //https://ja.wikipedia.org/wiki/%E5%8D%98%E7%B2%BE%E5%BA%A6%E6%B5%AE%E5%8B%95%E5%B0%8F%E6%95%B0%E7%82%B9%E6%95%B0
             if (BitConverter.IsLittleEndian) Array.Reverse(bytes);
-            var i = BitConverter.ToInt64( bytes, 0 );
+            var i = BitConverter.ToInt64(bytes, 0);
 
             i ^= 1 << 63;
             i ^= 1 << 62;
-            
+
             return BitConverter.ToDouble(BitConverter.GetBytes(i), 0);
         }
 
@@ -278,15 +278,12 @@ namespace Ew.Runtime.Serialization.Internal.Binary
         {
             var bits = new int[sizeof(decimal) / sizeof(int)];
             var span = new Span<byte>(bytes);
-            for(var i = 0; i < bits.Length;i++)
-            {
-                bits[i] = ToInt(span.Slice(i * sizeof(int), sizeof(int)).ToArray());
-            }
+            for (var i = 0; i < bits.Length; i++) bits[i] = ToInt(span.Slice(i * sizeof(int), sizeof(int)).ToArray());
 
             //https://qiita.com/nia_tn1012/items/9810d821d76dd765c59c
             bits[0] ^= 1 << 31;
             bits[0] ^= 1 << 22;
-            
+
             return new decimal(bits);
         }
 

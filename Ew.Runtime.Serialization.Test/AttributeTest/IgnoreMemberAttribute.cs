@@ -17,9 +17,8 @@ namespace Ew.Runtime.Serialization.Test.AttributeTest
             Assert.IsFalse(EwAssert.Equal(value, value2));
             Assert.IsFalse(value.Member13 == default(DateTimeOffset));
             Assert.IsTrue(value2.Member13 == default(DateTimeOffset));
-
         }
-        
+
         [Test]
         [AutoData]
         public void SerializeAndDeserializeTest(AttributeTestModel value)

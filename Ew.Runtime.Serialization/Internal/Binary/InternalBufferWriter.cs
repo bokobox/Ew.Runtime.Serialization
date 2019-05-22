@@ -22,12 +22,12 @@ namespace Ew.Runtime.Serialization.Internal.Binary
             if (Buffers == null)
             {
                 var buffers = new List<byte[]>();
-                for (var i = 0; i < 32; i++) 
+                for (var i = 0; i < 32; i++)
                     buffers.Add(new byte[ushort.MaxValue]);
-                
-                Buffers = buffers.ToArray();   
+
+                Buffers = buffers.ToArray();
             }
-            
+
             return new InternalBufferWriter(Buffers[layer]);
         }
 
