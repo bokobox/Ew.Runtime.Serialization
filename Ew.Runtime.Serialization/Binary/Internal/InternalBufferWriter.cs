@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Ew.Runtime.Serialization.Internal.Binary
+namespace Ew.Runtime.Serialization.Binary.Internal
 {
     internal class InternalBufferWriter
     {

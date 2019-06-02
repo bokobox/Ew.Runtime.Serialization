@@ -1,5 +1,5 @@
 using System;
-using Ew.Runtime.Serialization.Internal.Binary;
+using Ew.Runtime.Serialization.Binary.Internal;
 using K4os.Compression.LZ4;
 
 namespace Ew.Runtime.Serialization

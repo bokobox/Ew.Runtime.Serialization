@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using System.Text;
+using Ew.Runtime.Serialization.Internal;
 
-namespace Ew.Runtime.Serialization.Internal.Binary
+namespace Ew.Runtime.Serialization.Binary.Internal
 {
     internal static class InternalBinaryDeserializer
     {
