@@ -10,13 +10,13 @@ namespace Ew.Runtime.Serialization.Benchmark
         [Benchmark]
         public void MessagePack()
         {
-            var bin = MessagePackSerializer.Serialize(_model);
+            var bin = MessagePackSerializer.Serialize("aaa");
         }
         
         [Benchmark]
         public void EwSerializer()
         {
-            var bin = BinarySerializer.Serialize(_model);
+            var bin = BinarySerializer.Serialize("aaa");
         }
     }
 }

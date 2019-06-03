@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using AutoFixture.NUnit3;
+using Ew.Runtime.Serialization.Test.Models;
 using NUnit.Framework;
 
 namespace Ew.Runtime.Serialization.Test
@@ -9,17 +12,10 @@ namespace Ew.Runtime.Serialization.Test
     {
         [Test]
         [AutoData]
-        public void Test(float value)
+        public void Test(bool[][] value)
         {
-            var i = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
-
-            i ^= 1 << 31;
-            i ^= 1 << 30;
-
-            var bytes = new byte[sizeof(float)];
-            Unsafe.As<byte, int>(ref bytes[0]) = i;
-
-            if (BitConverter.IsLittleEndian) Array.Reverse(bytes);
+            var bin = BinarySerializer.Serialize(value);
+            var val = BinarySerializer.Deserialize<bool[][]>(bin);
         }
     }
 }

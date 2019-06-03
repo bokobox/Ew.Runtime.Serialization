@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Ew.Runtime.Serialization.Binary.Internal
 {
-    internal class InternalBufferWriter
+    public class InternalBufferWriter
     {
         [ThreadStatic] private static byte[][] Buffers;
 
@@ -50,6 +50,9 @@ namespace Ew.Runtime.Serialization.Binary.Internal
 
         public byte[] ToArray()
         {
+            if (_length == 0)
+                return new byte[] {};
+            
             var buffer = new byte[_length];
             Unsafe.CopyBlock(ref buffer[0], ref _buffer[0], (uint) _length);
             return buffer;
