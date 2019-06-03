@@ -1,4 +1,3 @@
-using System;
 using Ew.Runtime.Serialization.Binary.Internal;
 using Ew.Runtime.Serialization.Binary.Resolvers;
 using K4os.Compression.LZ4;
@@ -20,7 +19,7 @@ namespace Ew.Runtime.Serialization
         {
             if (bin.Length == 0)
                 return default;
-            
+
             var reader = new InternalBufferReader(bin);
             var formatter = StandardResolver<T>.GetFormatter();
             return (T) formatter.Deserialize(ref reader);

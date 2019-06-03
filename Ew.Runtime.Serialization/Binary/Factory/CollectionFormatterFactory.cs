@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Ew.Runtime.Serialization.Binary.Formatters;
@@ -28,15 +27,15 @@ namespace Ew.Runtime.Serialization.Binary.Factory
             var method = typeof(StandardResolver<>)
                 .MakeGenericType(elementType)
                 .GetMethod("GetFormatter", bindingFlags);
-                
+
             if (method == null)
                 throw new NullReferenceException("method is null");
-                
+
             var call = Expression.Call(method);
             var ret = Expression.Convert(call, typeof(object));
 
             var lambda = Expression.Lambda<Func<object>>(ret);
-            return (IDynamicBinaryFormatable)lambda.Compile()();
+            return (IDynamicBinaryFormatable) lambda.Compile()();
         }
     }
 }

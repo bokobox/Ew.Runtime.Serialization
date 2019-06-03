@@ -1,5 +1,4 @@
 using System;
-using Ew.Runtime.Serialization.Binary.Formatters;
 using Ew.Runtime.Serialization.Binary.Formatters.Primitive;
 using Ew.Runtime.Serialization.Binary.Interface;
 

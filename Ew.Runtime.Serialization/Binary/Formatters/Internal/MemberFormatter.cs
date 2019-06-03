@@ -14,7 +14,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Internal
         public MemberFormatter(PropertyInfo info)
         {
             _adapter = new PropertyAdapter<TParent, TMember>(info);
-            _formatter = (BinaryFormatter<TMember>)StandardResolver<TMember>.GetFormatter();
+            _formatter = (BinaryFormatter<TMember>) StandardResolver<TMember>.GetFormatter();
         }
 
         public override void Serialize(ref InternalBufferWriter writer, TParent instance)

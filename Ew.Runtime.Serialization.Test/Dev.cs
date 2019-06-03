@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using AutoFixture.NUnit3;
-using Ew.Runtime.Serialization.Test.Models;
 using NUnit.Framework;
 
 namespace Ew.Runtime.Serialization.Test

@@ -14,7 +14,7 @@ namespace Ew.Runtime.Serialization.Benchmark
             var model1 = MessagePackSerializer.Deserialize<TestModel>(bin1);
             var model2 = BinarySerializer.Deserialize<TestModel>(bin2);
         }
-        
+
         [Benchmark]
         public void EwSerializer()
         {

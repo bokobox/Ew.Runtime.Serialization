@@ -7,6 +7,16 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
     public class FloatFormatter : BinaryFormatter<float>, IDynamicBinaryFormatable
     {
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
+        {
+            Serialize(ref writer, (float) value);
+        }
+
+        object IDynamicBinaryFormatable.Deserialize(ref InternalBufferReader reader)
+        {
+            return Deserialize(ref reader);
+        }
+
         public override void Serialize(ref InternalBufferWriter writer, float value)
         {
             //本来は234
@@ -36,7 +46,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             //OK
 
             //https://ja.wikipedia.org/wiki/%E5%8D%98%E7%B2%BE%E5%BA%A6%E6%B5%AE%E5%8B%95%E5%B0%8F%E6%95%B0%E7%82%B9%E6%95%B0
-            var i = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
+            var i = Unsafe.As<float, int>(ref value);
 
             i ^= 1 << 31;
             i ^= 1 << 30;
@@ -45,18 +55,8 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             Unsafe.As<byte, int>(ref bin[0]) = i;
 
             //if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            
+
             writer.Append(bin).Size(bin.Length);
-        }
-
-        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
-        {
-            Serialize(ref writer, (float)value);
-        }
-
-        object IDynamicBinaryFormatable.Deserialize(ref InternalBufferReader reader)
-        {
-            return Deserialize(ref reader);
         }
 
         public override float Deserialize(ref InternalBufferReader reader)

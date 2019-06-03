@@ -1,4 +1,3 @@
-using System.Collections;
 using Ew.Runtime.Serialization.Binary.Factory;
 using Ew.Runtime.Serialization.Binary.Interface;
 
@@ -13,15 +12,15 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
             if (_formatable == null)
             {
                 var formatter = PrimitiveResolver<T>.GetFormatter();
-                
+
                 if (formatter == null && typeof(T).IsArray)
                     _formatable = CollectionResolver<T>.GetFormatter();
-                
+
                 else if (formatter == null)
-                    _formatable = (IDynamicBinaryFormatable)StandardFormatterFactory.Build<T>();
-                
+                    _formatable = (IDynamicBinaryFormatable) StandardFormatterFactory.Build<T>();
+
                 else
-                    _formatable = (IDynamicBinaryFormatable)formatter;
+                    _formatable = (IDynamicBinaryFormatable) formatter;
             }
 
             return _formatable;

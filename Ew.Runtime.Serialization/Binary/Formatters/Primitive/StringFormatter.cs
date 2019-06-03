@@ -6,15 +6,6 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
     public class StringFormatter : BinaryFormatter<string>, IDynamicBinaryFormatable
     {
-        public override void Serialize(ref InternalBufferWriter writer, string value)
-        {
-            var bin = value == null ? new byte[] { } : Encoding.UTF8.GetBytes(value);
-            if (bin.Length == 0)
-                writer.Size(0);
-            else
-                writer.Append(bin).Size(bin.Length);
-        }
-
         void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (string) value);
@@ -25,12 +16,21 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             return Deserialize(ref reader);
         }
 
+        public override void Serialize(ref InternalBufferWriter writer, string value)
+        {
+            var bin = value == null ? new byte[] { } : Encoding.UTF8.GetBytes(value);
+            if (bin.Length == 0)
+                writer.Size(0);
+            else
+                writer.Append(bin).Size(bin.Length);
+        }
+
         public override string Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
             if (size == 0)
                 return default;
-            
+
             var bin = reader.Data(size);
             return Encoding.UTF8.GetString(bin);
         }

@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Ew.Runtime.Serialization.Binary.Internal
 {
     public class InternalBufferWriter
     {
-        private static byte[] _sharedBuffer;
+        [ThreadStatic] private static byte[] _sharedBuffer;
 
         private readonly byte[] _buffer;
         private int _length;
@@ -30,7 +28,7 @@ namespace Ew.Runtime.Serialization.Binary.Internal
             _length += size;
             return this;
         }
-        
+
         public InternalBufferWriter Append(byte[] bin)
         {
             Unsafe.CopyBlock(ref _buffer[_length], ref bin[0], (uint) bin.Length);
@@ -56,8 +54,8 @@ namespace Ew.Runtime.Serialization.Binary.Internal
         public byte[] ToArray()
         {
             if (_length == 0)
-                return new byte[] {};
-            
+                return new byte[] { };
+
             var buffer = new byte[_length];
             Unsafe.CopyBlock(ref buffer[0], ref _buffer[0], (uint) _length);
             return buffer;
