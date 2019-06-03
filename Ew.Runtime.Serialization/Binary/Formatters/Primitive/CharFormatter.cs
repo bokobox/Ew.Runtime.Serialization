@@ -5,14 +5,14 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class CharFormatter : IBinaryFormatable<char>, IDynamicBinaryFormatable
+    public class CharFormatter : BinaryFormatter<char>, IDynamicBinaryFormatable
     {
-        public void Serialize(ref InternalBufferWriter writer, char value)
+        public override void Serialize(ref InternalBufferWriter writer, char value)
         {
             writer.Append(value, sizeof(char)).Size(sizeof(char));
         }
 
-        public void Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (char)value);
         }
@@ -22,7 +22,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             return Deserialize(ref reader);
         }
 
-        public char Deserialize(ref InternalBufferReader reader)
+        public override char Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
             return reader.Data<char>(size);

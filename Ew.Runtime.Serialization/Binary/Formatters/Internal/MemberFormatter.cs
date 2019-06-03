@@ -6,24 +6,24 @@ using Ew.Runtime.Serialization.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Internal
 {
-    public class MemberFormatter<TParent, TMember> : IMemberFormattable<TParent>
+    public class MemberFormatter<TParent, TMember> : BaseMemberFormatter<TParent>
     {
         private readonly PropertyAdapter<TParent, TMember> _adapter;
-        private readonly IBinaryFormatable<TMember> _formatter;
+        private readonly BinaryFormatter<TMember> _formatter;
 
         public MemberFormatter(PropertyInfo info)
         {
             _adapter = new PropertyAdapter<TParent, TMember>(info);
-            _formatter = (IBinaryFormatable<TMember>)StandardResolver<TMember>.GetFormatter();
+            _formatter = (BinaryFormatter<TMember>)StandardResolver<TMember>.GetFormatter();
         }
 
-        public void Serialize(ref InternalBufferWriter writer, TParent instance)
+        public override void Serialize(ref InternalBufferWriter writer, TParent instance)
         {
             var value = _adapter.Get(instance);
             _formatter.Serialize(ref writer, value);
         }
 
-        public void Deserialize(ref InternalBufferReader reader, TParent instance)
+        public override void Deserialize(ref InternalBufferReader reader, TParent instance)
         {
             var value = _formatter.Deserialize(ref reader);
             _adapter.Set(instance, value);

@@ -6,7 +6,7 @@ namespace Ew.Runtime.Serialization.Binary
 {
     public static class FormatterActivator
     {
-        public static IBinaryFormatable<T> GetFormatter<T>()
+        public static BinaryFormatter<T> GetFormatter<T>()
         {
             if (typeof(T) == typeof(string))
                 return (dynamic)new StringFormatter();

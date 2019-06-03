@@ -13,7 +13,7 @@ namespace Ew.Runtime.Serialization.Binary.Factory
 {
     public static class StandardFormatterFactory
     {
-        public static IBinaryFormatable<T> Build<T>()
+        public static BinaryFormatter<T> Build<T>()
         {
             var formatters = typeof(T)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -24,13 +24,13 @@ namespace Ew.Runtime.Serialization.Binary.Factory
             return new StandardFormatter<T>(formatters);
         }
 
-        private static IMemberFormattable<T> BuildMemberFormatter<T>(PropertyInfo info)
+        private static BaseMemberFormatter<T> BuildMemberFormatter<T>(PropertyInfo info)
         {
             var constructorInfo = typeof(MemberFormatter<,>)
                 .MakeGenericType(typeof(T), info.PropertyType)
                 .GetConstructor(new[] {typeof(PropertyInfo)});
 
-            return (IMemberFormattable<T>)constructorInfo.Invoke(new []{(object)info});
+            return (BaseMemberFormatter<T>)constructorInfo?.Invoke(new []{(object)info});
         }
     }
 }

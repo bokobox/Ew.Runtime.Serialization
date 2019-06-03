@@ -4,22 +4,22 @@ namespace Ew.Runtime.Serialization.Binary
 {
     public static class FormatterStore<T>
     {
-        private static readonly IBinaryFormatable<T> Formatable;
+        private static readonly BinaryFormatter<T> Formatter;
 
         static FormatterStore()
         {
-            Formatable = FormatterActivator.GetFormatter<T>();
+            Formatter = FormatterActivator.GetFormatter<T>();
         }
         
-        public static IBinaryFormatable<T> GetFormater()
+        public static BinaryFormatter<T> GetFormater()
         {
-            return Formatable;
+            return Formatter;
         }
         
-        public static bool TryGetFormater(out IBinaryFormatable<T> formatable)
+        public static bool TryGetFormater(out BinaryFormatter<T> formatter)
         {
-            formatable = Formatable;
-            return formatable != null;
+            formatter = Formatter;
+            return formatter != null;
         }
     }
 }

@@ -7,17 +7,17 @@ using Ew.Runtime.Serialization.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters
 {
-    public class StandardFormatter<T> : IBinaryFormatable<T>, IDynamicBinaryFormatable
+    public class StandardFormatter<T> : BinaryFormatter<T>, IDynamicBinaryFormatable
     {
 
-        private readonly IMemberFormattable<T>[] _formatters;
+        private readonly BaseMemberFormatter<T>[] _formatters;
 
-        public StandardFormatter(IMemberFormattable<T>[] formatters)
+        public StandardFormatter(BaseMemberFormatter<T>[] formatters)
         {
             _formatters = formatters;
         }
 
-        public void Serialize(ref InternalBufferWriter writer, T instance)
+        public override void Serialize(ref InternalBufferWriter writer, T instance)
         {
             if (instance == null)
             {
@@ -31,7 +31,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
             writer.Size(1);
         }
 
-        public void Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (T)value);
         }
@@ -41,7 +41,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
             return Deserialize(ref reader);
         }
 
-        public T Deserialize(ref InternalBufferReader reader)
+        public override T Deserialize(ref InternalBufferReader reader)
         {
             var count = reader.Size();
             if (count == 0)

@@ -5,9 +5,9 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class DateTimeOffsetFormatter : IBinaryFormatable<DateTimeOffset>, IDynamicBinaryFormatable
+    public class DateTimeOffsetFormatter : BinaryFormatter<DateTimeOffset>, IDynamicBinaryFormatable
     {
-        public unsafe void Serialize(ref InternalBufferWriter writer, DateTimeOffset value)
+        public override unsafe void Serialize(ref InternalBufferWriter writer, DateTimeOffset value)
         {
             var bin = new byte[sizeof(DateTimeOffset)];
             Unsafe.As<byte, DateTimeOffset>(ref bin[0]) = value;
@@ -16,7 +16,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             writer.Append(bin).Size(bin.Length);
         }
 
-        public void Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (DateTimeOffset)value);
         }
@@ -26,7 +26,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             return Deserialize(ref reader);
         }
 
-        public DateTimeOffset Deserialize(ref InternalBufferReader reader)
+        public override DateTimeOffset Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
             var bin = reader.Data(size);

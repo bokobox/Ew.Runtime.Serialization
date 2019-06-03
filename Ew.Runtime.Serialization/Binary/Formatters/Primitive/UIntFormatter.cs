@@ -5,9 +5,9 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class UIntFormatter : IBinaryFormatable<uint>, IDynamicBinaryFormatable
+    public class UIntFormatter : BinaryFormatter<uint>, IDynamicBinaryFormatable
     {
-        public void Serialize(ref InternalBufferWriter writer, uint value)
+        public override void Serialize(ref InternalBufferWriter writer, uint value)
         {
             var bin = new byte[sizeof(uint)];
             Unsafe.As<byte, uint>(ref bin[0]) = value;
@@ -16,7 +16,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             writer.Append(bin).Size(bin.Length);
         }
 
-        public void Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (uint)value);
         }
@@ -26,7 +26,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             return Deserialize(ref reader);
         }
 
-        public uint Deserialize(ref InternalBufferReader reader)
+        public override uint Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
             var bin = reader.Data(size);

@@ -5,16 +5,16 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters
 {
-    public class CollectionFormatter<T> : IBinaryFormatable<T[]>, IDynamicBinaryFormatable
+    public class CollectionFormatter<T> : BinaryFormatter<T[]>, IDynamicBinaryFormatable
     {
-        private readonly IBinaryFormatable<T> _internalFormatter;
+        private readonly BinaryFormatter<T> _internalFormatter;
 
-        public CollectionFormatter(IBinaryFormatable<T> internalFormatter)
+        public CollectionFormatter(BinaryFormatter<T> internalFormatter)
         {
             _internalFormatter = internalFormatter;
         }
 
-        public void Serialize(ref InternalBufferWriter writer, T[] collection)
+        public override void Serialize(ref InternalBufferWriter writer, T[] collection)
         {
             var items = collection?.ToArray();
             if (items == null)
@@ -29,7 +29,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
             writer.Size(items.Length);
         }
 
-        public void Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (T[])value);
         }
@@ -39,7 +39,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
             return Deserialize(ref reader);
         }
 
-        public T[] Deserialize(ref InternalBufferReader reader)
+        public override T[] Deserialize(ref InternalBufferReader reader)
         {
             var count = reader.Size();
             if (count == 0)

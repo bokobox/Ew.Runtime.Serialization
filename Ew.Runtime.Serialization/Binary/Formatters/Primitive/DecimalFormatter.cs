@@ -5,9 +5,9 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class DecimalFormatter : IBinaryFormatable<decimal>, IDynamicBinaryFormatable
+    public class DecimalFormatter : BinaryFormatter<decimal>, IDynamicBinaryFormatable
     {
-        public void Serialize(ref InternalBufferWriter writer, decimal value)
+        public override void Serialize(ref InternalBufferWriter writer, decimal value)
         {
             var bits = decimal.GetBits(value);
 
@@ -19,7 +19,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             writer.Append(bin).Size(bin.Length);
         }
 
-        public void Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (decimal)value);
         }
@@ -29,7 +29,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             return Deserialize(ref reader);
         }
 
-        public decimal Deserialize(ref InternalBufferReader reader)
+        public override decimal Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
             var bin = reader.Data(size);

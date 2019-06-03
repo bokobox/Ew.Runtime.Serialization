@@ -6,16 +6,16 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class SbyteFormatter : IBinaryFormatable<sbyte>, IDynamicBinaryFormatable
+    public class SbyteFormatter : BinaryFormatter<sbyte>, IDynamicBinaryFormatable
     {
-        public void Serialize(ref InternalBufferWriter writer, sbyte value)
+        public override void Serialize(ref InternalBufferWriter writer, sbyte value)
         {
             const int size = sizeof(sbyte);
             value = (sbyte) (value ^ 0x80);
             writer.Append(value, size).Size(size);
         }
 
-        public void Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
         {
             Serialize(ref writer, (sbyte)value);
         }
@@ -25,7 +25,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             return Deserialize(ref reader);
         }
 
-        public sbyte Deserialize(ref InternalBufferReader reader)
+        public override sbyte Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
             var bin = reader.Data(size);

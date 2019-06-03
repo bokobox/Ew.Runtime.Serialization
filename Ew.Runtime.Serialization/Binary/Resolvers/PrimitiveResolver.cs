@@ -5,11 +5,11 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
 {
     public static class PrimitiveResolver<T>
     {
-        private static IBinaryFormatable<T> _formatable;
+        private static BinaryFormatter<T> _formatter;
 
-        public static IBinaryFormatable<T> GetFormatter()
+        public static BinaryFormatter<T> GetFormatter()
         {
-            return _formatable ?? (_formatable = PrimitiveFormatterFactory.Build<T>());
+            return _formatter ?? (_formatter = PrimitiveFormatterFactory.Build<T>());
         }
     }
 }
