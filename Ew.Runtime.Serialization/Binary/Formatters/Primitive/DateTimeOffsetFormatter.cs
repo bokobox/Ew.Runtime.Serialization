@@ -9,11 +9,8 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
     {
         public override unsafe void Serialize(ref InternalBufferWriter writer, DateTimeOffset value)
         {
-            var bin = new byte[sizeof(DateTimeOffset)];
-            Unsafe.As<byte, DateTimeOffset>(ref bin[0]) = value;
-            //if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            
-            writer.Append(bin).Size(bin.Length);
+            var size = sizeof(DateTimeOffset);
+            writer.Append(value, size).Size(size);
         }
 
         void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
@@ -29,10 +26,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public override DateTimeOffset Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
-            var bin = reader.Data(size);
-
-            //if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            return Unsafe.As<byte, DateTimeOffset>(ref bin[0]);
+            return reader.Data<DateTimeOffset>(size);
         }
     }
 }

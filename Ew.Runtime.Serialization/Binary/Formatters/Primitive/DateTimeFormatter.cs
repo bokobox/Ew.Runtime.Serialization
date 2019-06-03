@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using Ew.Runtime.Serialization.Binary.Interface;
 using Ew.Runtime.Serialization.Binary.Internal;
@@ -9,11 +10,8 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
     {
         public override unsafe void Serialize(ref InternalBufferWriter writer, DateTime value)
         {
-            var bin = new byte[sizeof(DateTime)];
-            Unsafe.As<byte, DateTime>(ref bin[0]) = value;
-            //if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            
-            writer.Append(bin).Size(bin.Length);
+            var size = sizeof(DateTime);
+            writer.Append(value, size).Size(size);
         }
 
         void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
@@ -29,10 +27,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public override DateTime Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
-            var bin = reader.Data(size);
-
-            //if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            return Unsafe.As<byte, DateTime>(ref bin[0]);
+            return reader.Data<DateTime>(size);
         }
     }
 }

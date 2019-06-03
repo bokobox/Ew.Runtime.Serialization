@@ -9,7 +9,8 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
     {
         public override void Serialize(ref InternalBufferWriter writer, char value)
         {
-            writer.Append(value, sizeof(char)).Size(sizeof(char));
+            const int size = sizeof(char);
+            writer.Append(value, size).Size(size);
         }
 
         void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)

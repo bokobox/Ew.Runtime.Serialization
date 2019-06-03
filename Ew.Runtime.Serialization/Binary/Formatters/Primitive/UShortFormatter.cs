@@ -9,11 +9,8 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
     {
         public override void Serialize(ref InternalBufferWriter writer, ushort value)
         {
-            var bin = new byte[sizeof(ushort)];
-            Unsafe.As<byte, ushort>(ref bin[0]) = value;
-            //if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            
-            writer.Append(bin).Size(bin.Length);
+            const int size = sizeof(ushort);
+            writer.Append(value, size).Size(size);
         }
 
         void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
@@ -29,10 +26,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public override ushort Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
-            var bin = reader.Data(size);
-
-            //if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            return Unsafe.As<byte, ushort>(ref bin[0]);
+            return reader.Data<ushort>(size);
         }
     }
 }
