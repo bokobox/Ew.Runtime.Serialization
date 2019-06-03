@@ -3,7 +3,7 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class ByteArrayFormatter  : IBinaryFormatable<byte[]>
+    public class ByteArrayFormatter  : IBinaryFormatable<byte[]>, IDynamicBinaryFormatable
     {
         public void Serialize(ref InternalBufferWriter writer, byte[] value)
         {

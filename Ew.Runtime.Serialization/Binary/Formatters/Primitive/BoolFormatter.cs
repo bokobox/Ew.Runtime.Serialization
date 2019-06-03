@@ -3,12 +3,11 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class BoolFormatter : IBinaryFormatable<bool>
+    public class BoolFormatter : IBinaryFormatable<bool>, IDynamicBinaryFormatable
     {
         public void Serialize(ref InternalBufferWriter writer, bool value)
         {
-            const int size = sizeof(byte);
-            writer.Append(value ? (byte) 1 : (byte) 0).Size(size);
+            writer.Append(value ? (byte) 1 : (byte) 0).Size(sizeof(byte));
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)
@@ -23,7 +22,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 
         public bool Deserialize(ref InternalBufferReader reader)
         {
-            var size = reader.Size();
+            reader.Size();
             return reader.Data() == 1;
         }
     }

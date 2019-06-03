@@ -5,7 +5,7 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class DateTimeOffsetFormatter : IBinaryFormatable<DateTimeOffset>
+    public class DateTimeOffsetFormatter : IBinaryFormatable<DateTimeOffset>, IDynamicBinaryFormatable
     {
         public unsafe void Serialize(ref InternalBufferWriter writer, DateTimeOffset value)
         {

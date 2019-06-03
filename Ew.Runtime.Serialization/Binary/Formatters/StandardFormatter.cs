@@ -1,18 +1,20 @@
+using System.Collections.Generic;
+using System.Linq;
+using Ew.Runtime.Serialization.Binary.Formatters.Internal;
 using Ew.Runtime.Serialization.Binary.Interface;
 using Ew.Runtime.Serialization.Binary.Internal;
 using Ew.Runtime.Serialization.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters
 {
-    public class StandardFormatter<T> : IBinaryFormatable<T>
+    public class StandardFormatter<T> : IBinaryFormatable<T>, IDynamicBinaryFormatable
     {
-        private readonly IDynamicBinaryFormatable[] _formatables;
-        private readonly PropertyAdapter<T>[] _adapters;
 
-        public StandardFormatter(IDynamicBinaryFormatable[] formatables, PropertyAdapter<T>[] adapters)
+        private readonly IMemberFormattable<T>[] _formatters;
+
+        public StandardFormatter(IMemberFormattable<T>[] formatters)
         {
-            _formatables = formatables;
-            _adapters = adapters;
+            _formatters = formatters;
         }
 
         public void Serialize(ref InternalBufferWriter writer, T instance)
@@ -23,15 +25,9 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
                 return;
             }
 
-            for (var i = 0; i < _adapters.Length; i++)
-            {
-                var adapter = _adapters[i];
-                var formatter = _formatables[i];
-                
-                var value = adapter.Get(instance);
-                formatter.Serialize(ref writer, value);
-            }
-            
+            foreach (var t in _formatters)
+                t.Serialize(ref writer, instance);
+
             writer.Size(1);
         }
 
@@ -51,17 +47,11 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
             if (count == 0)
                 return default;
             
-            var instance = InstanceActivator.GetInstance(typeof(T));
-            for (var i = _adapters.Length - 1; i >= 0; i--)
-            {
-                var adapter = _adapters[i];
-                var formatter = _formatables[i];
+            var instance = (T)InstanceActivator.GetInstance(typeof(T));
+            for (var i = _formatters.Length - 1; i >= 0; i--)
+                _formatters[i].Deserialize(ref reader, instance);
 
-                var value = formatter.Deserialize(ref reader);
-                adapter.Set((T)instance, value);
-            }
-
-            return (T)instance;
+            return instance;
         }
     }
 }

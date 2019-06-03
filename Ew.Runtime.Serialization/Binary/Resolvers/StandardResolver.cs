@@ -16,10 +16,12 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
                 
                 if (formatter == null && typeof(T).IsArray)
                     _formatable = CollectionResolver<T>.GetFormatter();
+                
                 else if (formatter == null)
-                    _formatable = StandardFormatterFactory.Build<T>();
+                    _formatable = (IDynamicBinaryFormatable)StandardFormatterFactory.Build<T>();
+                
                 else
-                    _formatable = formatter;
+                    _formatable = (IDynamicBinaryFormatable)formatter;
             }
 
             return _formatable;

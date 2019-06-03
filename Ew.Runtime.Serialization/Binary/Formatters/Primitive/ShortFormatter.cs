@@ -5,7 +5,7 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class ShortFormatter : IBinaryFormatable<short>
+    public class ShortFormatter : IBinaryFormatable<short>, IDynamicBinaryFormatable
     {
         public void Serialize(ref InternalBufferWriter writer, short value)
         {

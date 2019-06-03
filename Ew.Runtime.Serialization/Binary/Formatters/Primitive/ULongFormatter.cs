@@ -5,7 +5,7 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class ULongFormatter : IBinaryFormatable<ulong>
+    public class ULongFormatter : IBinaryFormatable<ulong>, IDynamicBinaryFormatable
     {
         public void Serialize(ref InternalBufferWriter writer, ulong value)
         {

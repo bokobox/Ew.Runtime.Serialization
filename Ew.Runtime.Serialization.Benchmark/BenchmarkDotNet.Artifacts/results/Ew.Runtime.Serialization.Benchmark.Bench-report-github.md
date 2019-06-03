@@ -8,7 +8,7 @@ Intel Core i7-8700 CPU 3.20GHz (Coffee Lake), 1 CPU, 12 logical and 6 physical c
 
 
 ```
-|       Method |     Mean |     Error |    StdDev |
-|------------- |---------:|----------:|----------:|
-| EwSerializer | 84.70 ns | 0.9872 ns | 0.9234 ns |
-|  MessagePack | 62.72 ns | 1.2564 ns | 2.0643 ns |
+|       Method |     Mean |    Error |   StdDev |
+|------------- |---------:|---------:|---------:|
+| EwSerializer | 73.40 ns | 1.468 ns | 1.373 ns |
+|  MessagePack | 62.64 ns | 1.266 ns | 1.407 ns |

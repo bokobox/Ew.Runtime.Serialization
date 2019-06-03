@@ -5,7 +5,7 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters
 {
-    public class CollectionFormatter<T> : IBinaryFormatable<T[]>
+    public class CollectionFormatter<T> : IBinaryFormatable<T[]>, IDynamicBinaryFormatable
     {
         private readonly IBinaryFormatable<T> _internalFormatter;
 

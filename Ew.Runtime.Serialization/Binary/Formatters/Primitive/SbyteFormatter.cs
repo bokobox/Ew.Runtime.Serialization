@@ -6,7 +6,7 @@ using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
-    public class SbyteFormatter : IBinaryFormatable<sbyte>
+    public class SbyteFormatter : IBinaryFormatable<sbyte>, IDynamicBinaryFormatable
     {
         public void Serialize(ref InternalBufferWriter writer, sbyte value)
         {
