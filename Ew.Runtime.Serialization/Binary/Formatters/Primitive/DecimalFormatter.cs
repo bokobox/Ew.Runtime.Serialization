@@ -16,7 +16,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             bits[0] ^= 1 << 22;
 
             var bin = bits.SelectMany(BitConverter.GetBytes).ToArray();
-            writer.Append(bin).Append(bin.Length);
+            writer.Append(bin).Size(bin.Length);
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)

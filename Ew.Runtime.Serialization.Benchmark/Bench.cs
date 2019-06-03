@@ -6,17 +6,23 @@ namespace Ew.Runtime.Serialization.Benchmark
     public class Bench
     {
         private readonly TestModel _model = new TestModel();
-        
-        [Benchmark]
-        public void MessagePack()
+
+        public Bench()
         {
-            var bin = MessagePackSerializer.Serialize("aaa");
+            var bin1 = MessagePackSerializer.Serialize(_model);
+            var bin2 = BinarySerializer.Serialize(_model);
         }
         
         [Benchmark]
         public void EwSerializer()
         {
-            var bin = BinarySerializer.Serialize("aaa");
+            var bin = BinarySerializer.Serialize(_model);
+        }
+
+        [Benchmark]
+        public void MessagePack()
+        {
+            var bin = MessagePackSerializer.Serialize(_model);
         }
     }
 }

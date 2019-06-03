@@ -12,7 +12,7 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
         {
             if (_formatable == null)
             {
-                var formatter = PrimitiveFormatterFactory.Build<T>();
+                var formatter = PrimitiveResolver<T>.GetFormatter();
                 
                 if (formatter == null && typeof(T).IsArray)
                     _formatable = CollectionResolver<T>.GetFormatter();

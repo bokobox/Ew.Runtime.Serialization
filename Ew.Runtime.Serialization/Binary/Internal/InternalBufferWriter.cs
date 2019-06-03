@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Ew.Runtime.Serialization.Binary.Internal
 {
     public class InternalBufferWriter
     {
-        [ThreadStatic] private static byte[][] Buffers;
+        private static byte[] _sharedBuffer;
 
         private readonly byte[] _buffer;
         private int _length;
@@ -17,20 +18,19 @@ namespace Ew.Runtime.Serialization.Binary.Internal
             _length = 0;
         }
 
-        public static InternalBufferWriter GetBuffer(int layer)
+        public static InternalBufferWriter GetBuffer()
         {
-            if (Buffers == null)
-            {
-                var buffers = new List<byte[]>();
-                for (var i = 0; i < 32; i++)
-                    buffers.Add(new byte[ushort.MaxValue]);
-
-                Buffers = buffers.ToArray();
-            }
-
-            return new InternalBufferWriter(Buffers[layer]);
+            var buffer = _sharedBuffer ?? (_sharedBuffer = new byte[ushort.MaxValue]);
+            return new InternalBufferWriter(buffer);
         }
 
+        public InternalBufferWriter Append<T>(T value, int size)
+        {
+            Unsafe.As<byte, T>(ref _buffer[_length]) = value;
+            _length += size;
+            return this;
+        }
+        
         public InternalBufferWriter Append(byte[] bin)
         {
             Unsafe.CopyBlock(ref _buffer[_length], ref bin[0], (uint) bin.Length);
@@ -38,12 +38,17 @@ namespace Ew.Runtime.Serialization.Binary.Internal
             return this;
         }
 
-        public unsafe InternalBufferWriter Append(int value)
+        public InternalBufferWriter Append(byte bin)
+        {
+            _buffer[_length] = bin;
+            _length++;
+            return this;
+        }
+
+        public InternalBufferWriter Size(int value)
         {
             const int size = sizeof(int);
-            var src = Unsafe.AsPointer(ref value);
-            var dest = Unsafe.AsPointer(ref _buffer[_length]);
-            Unsafe.CopyBlock(dest, src, size);
+            Unsafe.As<byte, int>(ref _buffer[_length]) = value;
             _length += size;
             return this;
         }

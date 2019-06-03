@@ -9,7 +9,7 @@ namespace Ew.Runtime.Serialization
     {
         public static byte[] Serialize<T>(T value)
         {
-            var writer = InternalBufferWriter.GetBuffer(0);
+            var writer = InternalBufferWriter.GetBuffer();
             var formatter = StandardResolver<T>.GetFormatter();
             formatter.Serialize(ref writer, value);
 
@@ -28,7 +28,7 @@ namespace Ew.Runtime.Serialization
 
         public static byte[] LZ4Serialize<T>(T value)
         {
-            var writer = InternalBufferWriter.GetBuffer(0);
+            var writer = InternalBufferWriter.GetBuffer();
             var formatter = StandardResolver<T>.GetFormatter();
             formatter.Serialize(ref writer, value);
 

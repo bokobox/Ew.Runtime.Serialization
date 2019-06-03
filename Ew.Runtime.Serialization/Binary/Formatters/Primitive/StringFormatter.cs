@@ -9,8 +9,10 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public void Serialize(ref InternalBufferWriter writer, string value)
         {
             var bin = value == null ? new byte[] { } : Encoding.UTF8.GetBytes(value);
-            if (bin.Length > 0)
-                writer.Append(bin).Append(bin.Length);
+            if (bin.Length == 0)
+                writer.Size(0);
+            else
+                writer.Append(bin).Size(bin.Length);
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)
@@ -26,9 +28,11 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public string Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
+            if (size == 0)
+                return default;
+            
             var bin = reader.Data(size);
-
-            return bin == null || bin.Length == 0 ? string.Empty : Encoding.UTF8.GetString(bin);
+            return Encoding.UTF8.GetString(bin);
         }
     }
 }

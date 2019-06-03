@@ -16,11 +16,17 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
 
         public void Serialize(ref InternalBufferWriter writer, T[] collection)
         {
-            var items = collection.ToArray();
+            var items = collection?.ToArray();
+            if (items == null)
+            {
+                writer.Size(0);
+                return;
+            }
+            
             foreach (var item in items)
                 _internalFormatter.Serialize(ref writer, item);
 
-            writer.Append(items.Length);
+            writer.Size(items.Length);
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)
@@ -36,6 +42,9 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
         public T[] Deserialize(ref InternalBufferReader reader)
         {
             var count = reader.Size();
+            if (count == 0)
+                return null;
+            
             var items = new T[count];
 
             for (var j = count - 1; j >= 0; j--)

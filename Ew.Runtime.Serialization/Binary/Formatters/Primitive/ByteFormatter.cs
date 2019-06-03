@@ -8,7 +8,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public void Serialize(ref InternalBufferWriter writer, byte value)
         {
             var bin = new[] {value};
-            writer.Append(bin).Append(bin.Length);
+            writer.Append(bin).Size(bin.Length);
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)

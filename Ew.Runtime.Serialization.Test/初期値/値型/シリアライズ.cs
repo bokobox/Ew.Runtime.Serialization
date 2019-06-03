@@ -31,7 +31,7 @@ namespace Ew.Runtime.Serialization.Test.初期値.値型
             const string value = default(string);
             var bin1 = BinarySerializer.Serialize(value);
             Assert.NotNull(bin1);
-            Assert.IsEmpty(bin1);
+            Assert.IsTrue(bin1.Length == sizeof(int));
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace Ew.Runtime.Serialization.Test.初期値.値型
             const byte[] value = default(byte[]);
             var bin1 = BinarySerializer.Serialize(value);
             Assert.NotNull(bin1);
-            Assert.IsEmpty(bin1);
+            Assert.IsTrue(bin1.Length == sizeof(int));
         }
 
         [Test]

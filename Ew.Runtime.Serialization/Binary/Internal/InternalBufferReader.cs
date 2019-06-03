@@ -13,16 +13,11 @@ namespace Ew.Runtime.Serialization.Binary.Internal
             _offset = buffer.Length;
         }
 
-        public unsafe int Size()
+        public int Size()
         {
             const int size = sizeof(int);
             _offset -= size;
-            var value = new int();
-            var srtPtr = Unsafe.AsPointer(ref _buffer[_offset]);
-            var destPtr = Unsafe.AsPointer(ref value);
-            Unsafe.CopyBlock(destPtr, srtPtr, size);
-
-            return value;
+            return Unsafe.As<byte, int>(ref _buffer[_offset]);
         }
 
         public unsafe byte[] Data(int size)
@@ -34,6 +29,18 @@ namespace Ew.Runtime.Serialization.Binary.Internal
             Unsafe.CopyBlock(destPtr, srtPtr, (uint) size);
 
             return value;
+        }
+
+        public T Data<T>(int size)
+        {
+            _offset -= size;
+            return Unsafe.As<byte, T>(ref _buffer[_offset]);
+        }
+        
+        public byte Data()
+        {
+            _offset -= 1;
+            return _buffer[_offset];
         }
     }
 }

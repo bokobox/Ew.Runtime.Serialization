@@ -9,11 +9,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
     {
         public void Serialize(ref InternalBufferWriter writer, char value)
         {
-            var bin = new byte[sizeof(char)];
-            Unsafe.As<byte, char>(ref bin[0]) = value;
-            if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            
-            writer.Append(bin).Append(bin.Length);
+            writer.Append(value, sizeof(char)).Size(sizeof(char));
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)
@@ -29,10 +25,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public char Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
-            var bin = reader.Data(size);
-            
-            if (BitConverter.IsLittleEndian) Array.Reverse(bin);
-            return Unsafe.As<byte, char>(ref bin[0]);
+            return reader.Data<char>(size);
         }
     }
 }

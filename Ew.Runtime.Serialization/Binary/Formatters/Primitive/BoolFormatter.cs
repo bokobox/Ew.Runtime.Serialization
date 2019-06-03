@@ -7,8 +7,8 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
     {
         public void Serialize(ref InternalBufferWriter writer, bool value)
         {
-            var bin = BitConverterExtension.GetBytes(value);
-            writer.Append(bin).Append(bin.Length);
+            const int size = sizeof(byte);
+            writer.Append(value ? (byte) 1 : (byte) 0).Size(size);
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)
@@ -24,9 +24,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public bool Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
-            var bin = reader.Data(size);
-            
-            return BitConverterExtension.ToBool(bin);
+            return reader.Data() == 1;
         }
     }
 }

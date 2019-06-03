@@ -8,9 +8,9 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public void Serialize(ref InternalBufferWriter writer, byte[] value)
         {
             if (value == null || value.Length == 0)
-                return;
-            
-            writer.Append(value).Append(value.Length);
+                writer.Size(0);
+            else
+                writer.Append(value).Size(value.Length);
         }
 
         public void Serialize(ref InternalBufferWriter writer, object value)
@@ -26,7 +26,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
         public byte[] Deserialize(ref InternalBufferReader reader)
         {
             var size = reader.Size();
-            return reader.Data(size);
+            return size == 0 ? null : reader.Data(size);
         }
     }
 }
