@@ -23,7 +23,6 @@ namespace Ew.Runtime.Serialization.Binary.Factory
 
         private static IDynamicBinaryFormatable GetInnerFormatter(Type elementType)
         {
-            //Expressionで、Formatterを生成する
             const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static;
 
             var method = typeof(StandardResolver<>)
