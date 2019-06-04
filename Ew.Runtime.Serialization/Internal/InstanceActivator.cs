@@ -11,7 +11,7 @@ namespace Ew.Runtime.Serialization.Internal
         {
             if (_activator == null)
                 _activator = Expression.Lambda<Func<T>>(Expression.New(typeof(T))).Compile();
-            
+
             return _activator();
         }
     }

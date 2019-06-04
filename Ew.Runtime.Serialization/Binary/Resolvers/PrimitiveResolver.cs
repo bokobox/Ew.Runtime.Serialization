@@ -7,9 +7,10 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
     {
         private static BinaryFormatter<T> _formatter;
 
-        public static BinaryFormatter<T> GetFormatter()
+        public static bool TryGetFormatter(out IDynamicBinaryFormatable formatter)
         {
-            return _formatter ?? (_formatter = PrimitiveFormatterFactory.Build<T>());
+            formatter = (IDynamicBinaryFormatable) (_formatter ?? (_formatter = PrimitiveFormatterFactory.Build<T>()));
+            return _formatter != null;
         }
     }
 }

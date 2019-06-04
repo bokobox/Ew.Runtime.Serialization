@@ -2,7 +2,6 @@ using System.Linq;
 using System.Reflection;
 using Ew.Runtime.Serialization.Attributes;
 using Ew.Runtime.Serialization.Binary.Formatters;
-using Ew.Runtime.Serialization.Binary.Formatters.Internal;
 using Ew.Runtime.Serialization.Binary.Interface;
 
 namespace Ew.Runtime.Serialization.Binary.Factory

@@ -1,4 +1,4 @@
-namespace Ew.Runtime.Serialization.Binary.Formatters.Internal
+namespace Ew.Runtime.Serialization.Binary.Formatters
 {
     public abstract class BaseMemberFormatter<T>
     {

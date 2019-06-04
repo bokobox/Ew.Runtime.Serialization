@@ -3,9 +3,9 @@ using Ew.Runtime.Serialization.Binary.Interface;
 using Ew.Runtime.Serialization.Binary.Resolvers;
 using Ew.Runtime.Serialization.Internal;
 
-namespace Ew.Runtime.Serialization.Binary.Formatters.Internal
+namespace Ew.Runtime.Serialization.Binary.Formatters
 {
-    public class MemberFormatter<TParent, TMember> : BaseMemberFormatter<TParent>
+    internal class MemberFormatter<TParent, TMember> : BaseMemberFormatter<TParent>
     {
         private readonly PropertyAdapter<TParent, TMember> _adapter;
         private readonly BinaryFormatter<TMember> _formatter;
