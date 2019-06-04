@@ -1,6 +1,5 @@
 using System.Reflection;
 using Ew.Runtime.Serialization.Binary.Interface;
-using Ew.Runtime.Serialization.Binary.Internal;
 using Ew.Runtime.Serialization.Binary.Resolvers;
 using Ew.Runtime.Serialization.Internal;
 
@@ -17,13 +16,13 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Internal
             _formatter = (BinaryFormatter<TMember>) StandardResolver<TMember>.GetFormatter();
         }
 
-        public override void Serialize(ref InternalBufferWriter writer, TParent instance)
+        public override void Serialize(ref BinaryBufferWriter writer, TParent instance)
         {
             var value = _adapter.Get(instance);
             _formatter.Serialize(ref writer, value);
         }
 
-        public override void Deserialize(ref InternalBufferReader reader, TParent instance)
+        public override void Deserialize(ref BinaryBufferReader reader, TParent instance)
         {
             var value = _formatter.Deserialize(ref reader);
             _adapter.Set(instance, value);

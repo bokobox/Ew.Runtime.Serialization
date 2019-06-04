@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Ew.Runtime.Serialization.Internal
 {
-    public class PropertyAdapter<TParent, TMember>
+    internal class PropertyAdapter<TParent, TMember>
     {
         private readonly Func<TParent, TMember> _getter;
         private readonly Action<TParent, TMember> _setter;

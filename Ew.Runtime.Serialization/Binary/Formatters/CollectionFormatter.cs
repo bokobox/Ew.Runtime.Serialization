@@ -1,6 +1,5 @@
 using System.Linq;
 using Ew.Runtime.Serialization.Binary.Interface;
-using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters
 {
@@ -13,17 +12,17 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
             _internalFormatter = internalFormatter;
         }
 
-        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref BinaryBufferWriter writer, object value)
         {
             Serialize(ref writer, (T[]) value);
         }
 
-        object IDynamicBinaryFormatable.Deserialize(ref InternalBufferReader reader)
+        object IDynamicBinaryFormatable.Deserialize(ref BinaryBufferReader reader)
         {
             return Deserialize(ref reader);
         }
 
-        public override void Serialize(ref InternalBufferWriter writer, T[] collection)
+        public override void Serialize(ref BinaryBufferWriter writer, T[] collection)
         {
             var items = collection?.ToArray();
             if (items == null)
@@ -38,7 +37,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
             writer.Size(items.Length);
         }
 
-        public override T[] Deserialize(ref InternalBufferReader reader)
+        public override T[] Deserialize(ref BinaryBufferReader reader)
         {
             var count = reader.Size();
             if (count == 0)

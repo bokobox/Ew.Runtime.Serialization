@@ -1,22 +1,21 @@
 using System.Runtime.CompilerServices;
 using Ew.Runtime.Serialization.Binary.Interface;
-using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
     public class DecimalFormatter : BinaryFormatter<decimal>, IDynamicBinaryFormatable
     {
-        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref BinaryBufferWriter writer, object value)
         {
             Serialize(ref writer, (decimal) value);
         }
 
-        object IDynamicBinaryFormatable.Deserialize(ref InternalBufferReader reader)
+        object IDynamicBinaryFormatable.Deserialize(ref BinaryBufferReader reader)
         {
             return Deserialize(ref reader);
         }
 
-        public override void Serialize(ref InternalBufferWriter writer, decimal value)
+        public override void Serialize(ref BinaryBufferWriter writer, decimal value)
         {
             var bits = decimal.GetBits(value);
 
@@ -32,7 +31,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
                 .Size(size * 4);
         }
 
-        public override decimal Deserialize(ref InternalBufferReader reader)
+        public override decimal Deserialize(ref BinaryBufferReader reader)
         {
             var size = reader.Size();
             var bin = reader.Data(size);

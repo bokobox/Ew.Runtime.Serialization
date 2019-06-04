@@ -1,23 +1,22 @@
 using System;
 using System.Runtime.CompilerServices;
 using Ew.Runtime.Serialization.Binary.Interface;
-using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
     public class FloatFormatter : BinaryFormatter<float>, IDynamicBinaryFormatable
     {
-        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref BinaryBufferWriter writer, object value)
         {
             Serialize(ref writer, (float) value);
         }
 
-        object IDynamicBinaryFormatable.Deserialize(ref InternalBufferReader reader)
+        object IDynamicBinaryFormatable.Deserialize(ref BinaryBufferReader reader)
         {
             return Deserialize(ref reader);
         }
 
-        public override void Serialize(ref InternalBufferWriter writer, float value)
+        public override void Serialize(ref BinaryBufferWriter writer, float value)
         {
             //本来は234
 
@@ -59,7 +58,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
             writer.Append(bin).Size(bin.Length);
         }
 
-        public override float Deserialize(ref InternalBufferReader reader)
+        public override float Deserialize(ref BinaryBufferReader reader)
         {
             var size = reader.Size();
             var bin = reader.Data(size);

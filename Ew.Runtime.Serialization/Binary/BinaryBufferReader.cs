@@ -1,13 +1,13 @@
 using System.Runtime.CompilerServices;
 
-namespace Ew.Runtime.Serialization.Binary.Internal
+namespace Ew.Runtime.Serialization.Binary
 {
-    public class InternalBufferReader
+    public class BinaryBufferReader
     {
         private readonly byte[] _buffer;
         private int _offset;
 
-        public InternalBufferReader(byte[] buffer)
+        public BinaryBufferReader(byte[] buffer)
         {
             _buffer = buffer;
             _offset = buffer.Length;

@@ -1,4 +1,4 @@
-using Ew.Runtime.Serialization.Binary.Internal;
+using Ew.Runtime.Serialization.Binary;
 using Ew.Runtime.Serialization.Binary.Resolvers;
 using K4os.Compression.LZ4;
 
@@ -8,7 +8,7 @@ namespace Ew.Runtime.Serialization
     {
         public static byte[] Serialize<T>(T value)
         {
-            var writer = InternalBufferWriter.GetBuffer();
+            var writer = BinaryBufferWriter.GetBuffer();
             var formatter = StandardResolver<T>.GetFormatter();
             formatter.Serialize(ref writer, value);
 
@@ -20,14 +20,14 @@ namespace Ew.Runtime.Serialization
             if (bin.Length == 0)
                 return default;
 
-            var reader = new InternalBufferReader(bin);
+            var reader = new BinaryBufferReader(bin);
             var formatter = StandardResolver<T>.GetFormatter();
             return (T) formatter.Deserialize(ref reader);
         }
 
         public static byte[] LZ4Serialize<T>(T value)
         {
-            var writer = InternalBufferWriter.GetBuffer();
+            var writer = BinaryBufferWriter.GetBuffer();
             var formatter = StandardResolver<T>.GetFormatter();
             formatter.Serialize(ref writer, value);
 
@@ -36,7 +36,7 @@ namespace Ew.Runtime.Serialization
 
         public static T LZ4Deserialize<T>(byte[] bin)
         {
-            var reader = new InternalBufferReader(LZ4Pickler.Unpickle(bin));
+            var reader = new BinaryBufferReader(LZ4Pickler.Unpickle(bin));
             var formatter = StandardResolver<T>.GetFormatter();
             return (T) formatter.Deserialize(ref reader);
         }

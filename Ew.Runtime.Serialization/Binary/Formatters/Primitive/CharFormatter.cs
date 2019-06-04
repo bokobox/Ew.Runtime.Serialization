@@ -1,27 +1,26 @@
 using Ew.Runtime.Serialization.Binary.Interface;
-using Ew.Runtime.Serialization.Binary.Internal;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters.Primitive
 {
     public class CharFormatter : BinaryFormatter<char>, IDynamicBinaryFormatable
     {
-        void IDynamicBinaryFormatable.Serialize(ref InternalBufferWriter writer, object value)
+        void IDynamicBinaryFormatable.Serialize(ref BinaryBufferWriter writer, object value)
         {
             Serialize(ref writer, (char) value);
         }
 
-        object IDynamicBinaryFormatable.Deserialize(ref InternalBufferReader reader)
+        object IDynamicBinaryFormatable.Deserialize(ref BinaryBufferReader reader)
         {
             return Deserialize(ref reader);
         }
 
-        public override void Serialize(ref InternalBufferWriter writer, char value)
+        public override void Serialize(ref BinaryBufferWriter writer, char value)
         {
             const int size = sizeof(char);
             writer.Append(value, size).Size(size);
         }
 
-        public override char Deserialize(ref InternalBufferReader reader)
+        public override char Deserialize(ref BinaryBufferReader reader)
         {
             var size = reader.Size();
             return reader.Data<char>(size);
