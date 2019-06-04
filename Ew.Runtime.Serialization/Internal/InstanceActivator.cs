@@ -3,26 +3,16 @@ using System.Linq.Expressions;
 
 namespace Ew.Runtime.Serialization.Internal
 {
-    internal static class InstanceActivator
+    internal static class InstanceActivator<T>
     {
-        private static ThreadSafeHashTypeTable<Func<object>> _activator;
+        private static Func<T> _activator;
 
-        static InstanceActivator()
+        public static T GetInstance()
         {
-            _activator = new ThreadSafeHashTypeTable<Func<object>>();
-        }
+            if (_activator == null)
+                _activator = Expression.Lambda<Func<T>>(Expression.New(typeof(T))).Compile();
 
-        public static object GetInstance(Type type)
-        {
-            var activators = _activator ?? (_activator = new ThreadSafeHashTypeTable<Func<object>>());
-
-            if (activators.TryGetValue(type, out var activator))
-                return activator();
-
-            activator = Expression.Lambda<Func<object>>(Expression.New(type)).Compile();
-
-            activators.Add(type, activator);
-            return activator();
+            return _activator();
         }
     }
 }
