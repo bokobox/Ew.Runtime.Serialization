@@ -12,7 +12,7 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
         public static bool TryGetFormatter(out IDynamicBinaryFormatable formatter)
         {
             formatter = null;
-            if (!typeof(T).IsArray && typeof(T).GetInterfaces().All(x => x != typeof(IEnumerable)))
+            if (!typeof(T).IsArray)
                 return false;
 
             formatter = _formatable ?? (_formatable = ArrayFormatterFactory.Build<T>());
