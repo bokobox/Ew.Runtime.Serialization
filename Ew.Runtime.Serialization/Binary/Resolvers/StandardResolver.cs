@@ -1,5 +1,6 @@
 using Ew.Runtime.Serialization.Binary.Factory;
 using Ew.Runtime.Serialization.Binary.Interface;
+using Ew.Runtime.Serialization.Binary.Resolvers.Generic;
 
 namespace Ew.Runtime.Serialization.Binary.Resolvers
 {
@@ -14,7 +15,9 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
 
             if (PrimitiveResolver<T>.TryGetFormatter(out var formatter))
                 _formatable = (BinaryFormatter<T>)formatter;
-            else if (CollectionResolver<T>.TryGetFormatter(out formatter))
+            else if (ArrayResolver<T>.TryGetFormatter(out formatter))
+                _formatable = (BinaryFormatter<T>)formatter;
+            else if (EnumerableResolver<T>.TryGetFormatter(out formatter))
                 _formatable = (BinaryFormatter<T>)formatter;
             else
                 _formatable = StandardFormatterFactory.Build<T>();

@@ -38,7 +38,7 @@ namespace Ew.Runtime.Serialization
         {
             var reader = new BinaryBufferReader(LZ4Pickler.Unpickle(bin));
             var formatter = StandardResolver<T>.GetFormatter();
-            return (T) formatter.Deserialize(ref reader);
+            return formatter.Deserialize(ref reader);
         }
     }
 }

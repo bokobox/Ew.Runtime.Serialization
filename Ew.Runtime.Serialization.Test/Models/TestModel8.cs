@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Ew.Runtime.Serialization.Test.Models
 {
@@ -17,7 +18,7 @@ namespace Ew.Runtime.Serialization.Test.Models
         public byte[] Member11 { get; set; }
         public DateTime Member12 { get; set; }
         public DateTimeOffset Member13 { get; set; }
-        public ushort[] Member14 { get; set; }
+        public IEnumerable<ushort> Member14 { get; set; }
         public int[] Member15 { get; set; }
         public uint[] Member16 { get; set; }
     }
