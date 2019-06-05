@@ -5,19 +5,19 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
 {
     public static class StandardResolver<T>
     {
-        private static IDynamicBinaryFormatable _formatable;
+        private static BinaryFormatter<T> _formatable;
 
-        public static IDynamicBinaryFormatable GetFormatter()
+        public static BinaryFormatter<T> GetFormatter()
         {
             if (_formatable != null)
                 return _formatable;
 
             if (PrimitiveResolver<T>.TryGetFormatter(out var formatter))
-                _formatable = formatter;
+                _formatable = (BinaryFormatter<T>)formatter;
             else if (CollectionResolver<T>.TryGetFormatter(out formatter))
-                _formatable = formatter;
+                _formatable = (BinaryFormatter<T>)formatter;
             else
-                _formatable = (IDynamicBinaryFormatable) StandardFormatterFactory.Build<T>();
+                _formatable = StandardFormatterFactory.Build<T>();
 
             return _formatable;
         }

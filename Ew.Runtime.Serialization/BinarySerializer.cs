@@ -17,7 +17,7 @@ namespace Ew.Runtime.Serialization
 
         public static T Deserialize<T>(byte[] bin)
         {
-            if (bin.Length == 0)
+            if (bin == null || bin.Length == 0)
                 return default;
 
             var reader = new BinaryBufferReader(bin);
