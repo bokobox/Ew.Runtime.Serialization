@@ -11,12 +11,9 @@ namespace Ew.Runtime.Serialization.Internal
 
         public PropertyAdapter(PropertyInfo info)
         {
-            PropertyType = info.PropertyType;
             _getter = BuildGetter(info);
             _setter = BuildSetter(info);
         }
-
-        public Type PropertyType { get; }
 
         public TMember Get(TParent instance)
         {

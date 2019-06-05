@@ -13,7 +13,7 @@ namespace Ew.Runtime.Serialization.Binary.Formatters
         public MemberFormatter(PropertyInfo info)
         {
             _adapter = new PropertyAdapter<TParent, TMember>(info);
-            _formatter = (BinaryFormatter<TMember>) StandardResolver<TMember>.GetFormatter();
+            _formatter = StandardResolver<TMember>.GetFormatter();
         }
 
         public override void Serialize(ref BinaryBufferWriter writer, TParent instance)

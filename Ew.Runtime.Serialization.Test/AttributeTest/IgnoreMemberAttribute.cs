@@ -14,7 +14,7 @@ namespace Ew.Runtime.Serialization.Test.AttributeTest
             var bin = BinarySerializer.Serialize(value2);
             value2 = BinarySerializer.Deserialize<AttributeTestModel>(bin);
 
-            Assert.IsFalse(EwAssert.Equal(value, value2));
+            Assert.IsTrue(EwAssert.Equal(value, value2));
             Assert.IsFalse(value.Member13 == default(DateTimeOffset));
             Assert.IsTrue(value2.Member13 == default(DateTimeOffset));
         }
@@ -30,7 +30,7 @@ namespace Ew.Runtime.Serialization.Test.AttributeTest
                 value2 = BinarySerializer.Deserialize<AttributeTestModel>(bin);
             }
 
-            Assert.IsFalse(EwAssert.Equal(value, value2));
+            Assert.IsTrue(EwAssert.Equal(value, value2));
         }
     }
 }

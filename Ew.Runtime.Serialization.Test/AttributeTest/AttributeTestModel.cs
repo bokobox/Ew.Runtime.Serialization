@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Ew.Runtime.Serialization.Test.AttributeTest
 {
@@ -16,7 +17,7 @@ namespace Ew.Runtime.Serialization.Test.AttributeTest
         public decimal Member10 { get; set; }
         public byte[] Member11 { get; set; }
         public DateTime Member12 { get; set; }
-        [Attributes.IgnoreMember] public DateTimeOffset Member13 { get; set; }
+        [IgnoreDataMember] public DateTimeOffset Member13 { get; set; }
         public string[] Member14 { get; set; }
         public bool[] Member15 { get; set; }
         public char[] Member16 { get; set; }

@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Reflection;
-using Ew.Runtime.Serialization.Attributes;
+using System.Runtime.Serialization;
 using Ew.Runtime.Serialization.Binary.Formatters;
 using Ew.Runtime.Serialization.Binary.Interface;
 
@@ -12,7 +12,7 @@ namespace Ew.Runtime.Serialization.Binary.Factory
         {
             var formatters = typeof(T)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(x => x.GetCustomAttribute(typeof(IgnoreMemberAttribute)) == null)
+                .Where(x => x.GetCustomAttribute(typeof(IgnoreDataMemberAttribute)) == null)
                 .Select(BuildMemberFormatter<T>)
                 .ToArray();
 
