@@ -18,7 +18,7 @@ namespace Ew.Runtime.Serialization.Binary
 
         public static BinaryBufferWriter GetWriter()
         {
-            var buffer = _sharedBuffer ?? (_sharedBuffer = new byte[ushort.MaxValue]);
+            var buffer = _sharedBuffer ?? (_sharedBuffer = new byte[0xFFFFFF]);
             return new BinaryBufferWriter(buffer);
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Ew.Runtime.Serialization.Binary.Formatters;
@@ -7,14 +8,14 @@ using Ew.Runtime.Serialization.Binary.Resolvers;
 
 namespace Ew.Runtime.Serialization.Binary.Factory
 {
-    public static class CollectionFormatterFactory
+    public static class ArrayFormatterFactory
     {
         public static IDynamicBinaryFormatable Build<T>()
         {
-            var elementType = typeof(T).GetElementType();
+            var elementType = typeof(T).GetElementType() ?? typeof(T).GetGenericArguments().First();
             var innerFormatter = GetInnerFormatter(elementType);
 
-            var type = typeof(CollectionFormatter<>).MakeGenericType(elementType);
+            var type = typeof(ArrayFormatter<>).MakeGenericType(elementType);
 
             var formatter = Activator.CreateInstance(type, innerFormatter);
             return (IDynamicBinaryFormatable) formatter;

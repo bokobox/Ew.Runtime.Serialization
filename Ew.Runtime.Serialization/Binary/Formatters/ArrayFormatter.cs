@@ -3,11 +3,11 @@ using Ew.Runtime.Serialization.Binary.Interface;
 
 namespace Ew.Runtime.Serialization.Binary.Formatters
 {
-    public class CollectionFormatter<T> : BinaryFormatter<T[]>, IDynamicBinaryFormatable
+    public class ArrayFormatter<T> : BinaryFormatter<T[]>, IDynamicBinaryFormatable
     {
         private readonly BinaryFormatter<T> _internalFormatter;
 
-        public CollectionFormatter(BinaryFormatter<T> internalFormatter)
+        public ArrayFormatter(BinaryFormatter<T> internalFormatter)
         {
             _internalFormatter = internalFormatter;
         }
