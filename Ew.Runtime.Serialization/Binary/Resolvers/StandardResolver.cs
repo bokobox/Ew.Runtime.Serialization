@@ -19,6 +19,8 @@ namespace Ew.Runtime.Serialization.Binary.Resolvers
                 _formatable = (BinaryFormatter<T>)formatter;
             else if (EnumerableResolver<T>.TryGetFormatter(out formatter))
                 _formatable = (BinaryFormatter<T>)formatter;
+            else if (EnumResolver<T>.TryGetFormatter(out formatter))
+                _formatable = (BinaryFormatter<T>)formatter;
             else
                 _formatable = StandardFormatterFactory.Build<T>();
 
